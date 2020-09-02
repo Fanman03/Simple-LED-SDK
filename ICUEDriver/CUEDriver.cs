@@ -441,7 +441,7 @@ namespace ICUEDriver
                         List<ControlDevice.LedUnit> leds = new List<ControlDevice.LedUnit>();
 
                         int ctr = 0;
-                        foreach (var lp in positions)
+                        foreach (var lp in positions.OrderBy(x => x.top + x.left))
                         {
                             leds.Add(new ControlDevice.LedUnit()
                             {
