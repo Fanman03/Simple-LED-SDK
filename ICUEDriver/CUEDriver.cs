@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
@@ -86,14 +89,102 @@ namespace ICUEDriver
 
             int deviceCount = _CUESDK.CorsairGetDeviceCount();
 
+            var imgDict = new Dictionary<string, string>()
+            {
+                //Keyboards
+                { "Corsair K65 RGB","K65" },
+                { "Corsair K65 LUX RGB","K65" },
+
+                { "Corsair K68 RGB","K68" },
+
+                { "Corsair STRAFE RGB","Strafe" },
+
+                { "Corsair K70 RGB","K70" },
+                { "Corsair K70 LUX RGB","K70" },
+
+                { "Corsair K95 RGB","K95" },
+
+                { "Corsair K70 RGB MK.2","K70v2" },
+                { "Corsair K70 RGB MK.2 LP","K70v2" },
+                { "Corsair K70 RGB MK.2 SE","K70v2SE" },
+
+                { "Corsair STRAFE RGB MK.2","Strafev2" },
+
+                { "Corsair K95 RGB PLATINUM","K95Plat" },
+                { "Corsair K95 RGB PLATINUM XT","K95Plat" },
+
+                //Mice
+                { "Corsair HARPOON RGB","Harpoon" },
+                { "Corsair HARPOON RGB PRO","Harpoon" },
+                { "Corsair HARPOON RGB WIRELESS","Harpoon" },
+
+                { "Corsair M55 RGB","M55" },
+
+                { "Corsair M65 RGB","M65" },
+                { "Corsair M65 PRO RGB","M65" },
+                { "Corsair M65 RGB ELITE","M65" },
+
+                { "Corsair SCIMITAR RGB","Scimitar" },
+                { "Corsair SCIMITAR PRO RGB","Scimitar" },
+                { "Corsair SCIMITAR ELITE RGB","Scimitar" },
+
+                { "Corsair IRONCLAW RGB","Ironclaw" },
+                { "Corsair IRONCLAW RGB WIRELESS","Ironclaw" },
+
+                { "Corsair GLAIVE RGB","Glaive" },
+                { "Corsair GLAIVE RGB PRO","Glaive" },
+
+                { "Corsair NIGHTSWORD RGB","Nightsword" },
+
+                { "Corsair DARK CORE RGB","DarkCore" },
+                { "Corsair DARK CORE RGB SE","DarkCore" },
+                { "Corsair DARK CORE PRO RGB","DarkCore" },
+                { "Corsair DARK CORE PRO RGB SE","DarkCore" },
+
+                //Mousepads
+                { "Corsair MM800RGB","MM800" },
+                { "Corsair MM800CRGB","MM800" },
+
+                //Headset Stands
+                { "Corsair ST100RGB","ST100" },
+
+                //Headsets
+                { "Corsair VOID Wireless","Void" },
+                { "Corsair VOID PRO Wireless","Void" },
+                { "Corsair VOID ELITE Wireless","Void" },
+
+                { "Corsair VIRTUOSO RGB Wireless","Virtuoso" },
+                { "Corsair VIRTUOSO SE RGB Wireless","Virtuoso" },
+
+                //DRAM
+                { "Corsair VENGEANCE RGB PRO","VengeancePro" },
+                { "Corsair VENGEANCE RGB PRO 2","VengeancePro" },
+                { "Corsair VENGEANCE RGB PRO 3","VengeancePro" },
+                { "Corsair VENGEANCE RGB PRO 4","VengeancePro" },
+                { "Corsair VENGEANCE RGB PRO 5","VengeancePro" },
+                { "Corsair VENGEANCE RGB PRO 6","VengeancePro" },
+                { "Corsair VENGEANCE RGB PRO 7","VengeancePro" },
+                { "Corsair VENGEANCE RGB PRO 8","VengeancePro" },
+
+                { "Corsair DOMINATOR PLATINUM RGB","DomPlat" },
+                { "Corsair DOMINATOR PLATINUM RGB 2","DomPlat" },
+                { "Corsair DOMINATOR PLATINUM RGB 3","DomPlat" },
+                { "Corsair DOMINATOR PLATINUM RGB 4","DomPlat" },
+                { "Corsair DOMINATOR PLATINUM RGB 5","DomPlat" },
+                { "Corsair DOMINATOR PLATINUM RGB 6","DomPlat" },
+                { "Corsair DOMINATOR PLATINUM RGB 7","DomPlat" },
+                { "Corsair DOMINATOR PLATINUM RGB 8","DomPlat" }
+
+            };
+
             for (int i = 0; i < deviceCount; i++)
             {
-                Debug.WriteLine(i);
 
                 var tst = _CUESDK.CorsairGetDeviceInfo(i);
                 _CorsairDeviceInfo nativeDeviceInfo = (_CorsairDeviceInfo)Marshal.PtrToStructure(tst, typeof(_CorsairDeviceInfo));
                 Debug.WriteLine(nativeDeviceInfo.ledsCount + " leds");
                 CorsairRGBDeviceInfo info = new CorsairRGBDeviceInfo(i, DeviceTypes.Other, nativeDeviceInfo, modelCounter);
+                string friendlyName = info.DeviceName.Replace("Corsair", "");
                 if (!info.CapsMask.HasFlag(CorsairDeviceCaps.Lighting))
                 {
                     continue; // Everything that doesn't support lighting control is useless
@@ -113,14 +204,71 @@ namespace ICUEDriver
                 }
 
                 Debug.WriteLine(info.DeviceName);
-                Debug.WriteLine("https://www.corsair.com/corsairmedia/sys_master/productcontent/drivers_"+info.DeviceName.Replace(" ","-")+".jpg");
+
+                /*using (StreamWriter sw = File.AppendText((Path.Combine(docPath, "Devices.txt"))))
+                {
+                    sw.WriteLine("name: " + info.DeviceName);
+                }*/
+
+                string imageKey;
+
+                if (imgDict.ContainsKey(info.DeviceName))
+                {
+                    imageKey = imgDict[info.DeviceName];
+                }
+                else
+                {
+                    switch (GetDeviceType(info.CorsairDeviceType))
+                    {
+                        case DeviceTypes.Keyboard:
+                            imageKey = "K95Plat";
+                            break;
+                        case DeviceTypes.Mouse:
+                            imageKey = "Scimitar";
+                            break;
+                        case DeviceTypes.MousePad:
+                            imageKey = "MM800";
+                            break;
+                        case DeviceTypes.Headset:
+                            imageKey = "Void";
+                            break;
+                        case DeviceTypes.HeadsetStand:
+                            imageKey = "ST100";
+                            break;
+                        case DeviceTypes.MotherBoard:
+                            imageKey = "Motherboard";
+                            break;
+                        case DeviceTypes.GPU:
+                            imageKey = "GPU";
+                            break;
+                        case DeviceTypes.Cooler:
+                            imageKey = "AIO";
+                            break;
+                        case DeviceTypes.Fan:
+                            imageKey = "QLFan";
+                            break;
+                        case DeviceTypes.LedStrip:
+                            imageKey = "LedStrip";
+                            break;
+                        case DeviceTypes.Memory:
+                            imageKey = "VengeancePro";
+                            break;
+                        default:
+                            imageKey = "CorsairPlaceholder";
+                            break;
+                    }
+                }
+
                 CorsairDevice device = new CorsairDevice
                 {
                     Driver = this,
-                    Name = info.DeviceName,
+                    Name = friendlyName,
+                    ProductImage = GetImage(imageKey),
                     CorsairDeviceIndex = info.CorsairDeviceIndex,
                     DeviceType = GetDeviceType(info.CorsairDeviceType)
+
                 };
+
 
                 var channelsInfo = (nativeDeviceInfo.channels);
 
@@ -150,50 +298,76 @@ namespace ICUEDriver
 
                                 string subDeviceName = "Invalid";
                                 string subDeviceType = DeviceTypes.Other;
+                                string subImageKey = "CorsairPlaceholder";
 
                                 switch (channelDeviceInfo.type)
                                 {
                                     case CorsairChannelDeviceType.Invalid:
-                                        subDeviceName = "Unknown";
-                                        subDeviceType = DeviceTypes.Other;
+                                        if (channelDeviceInfo.deviceLedCount == 27)
+                                        {
+                                            subDeviceName = "LT100RGB";
+                                            subDeviceType = DeviceTypes.LedStrip;
+                                            subImageKey = "LT100";
+                                        }
+                                        else
+                                        {
+                                            subDeviceName = "Unknown";
+                                            subDeviceType = DeviceTypes.Other;
+                                        }
                                         break;
                                     case CorsairChannelDeviceType.FanHD:
                                         subDeviceName = "HD Fan";
                                         subDeviceType = DeviceTypes.Fan;
+                                        subImageKey = "HDFan";
                                         break;
                                     case CorsairChannelDeviceType.FanSP:
                                         subDeviceName = "SP Fan";
                                         subDeviceType = DeviceTypes.Fan;
+                                        subImageKey = "SPFan";
                                         break;
                                     case CorsairChannelDeviceType.FanML:
                                         subDeviceName = "ML Fan";
                                         subDeviceType = DeviceTypes.Fan;
+                                        subImageKey = "MLFan";
                                         break;
                                     case CorsairChannelDeviceType.FanLL:
                                         subDeviceName = "LL Fan";
                                         subDeviceType = DeviceTypes.Fan;
+                                        subImageKey = "LLFan";
                                         break;
                                     case CorsairChannelDeviceType.Strip:
-                                        subDeviceName = "LED Strip";
                                         subDeviceType = DeviceTypes.LedStrip;
+                                        if (channelDeviceInfo.deviceLedCount > 10)
+                                        {
+                                            subDeviceName = "LS100 LED Strip";
+                                            subImageKey = "LS100";
+                                        }
+                                        else
+                                        {
+                                            subDeviceName = "Internal LED Strip";
+                                            subImageKey = "LedStrip";
+                                        }
                                         break;
                                     case CorsairChannelDeviceType.DAP:
-                                        subDeviceName = "Super-Secret DAP thingy";
+                                        subDeviceName = "DAP??";
                                         subDeviceType = DeviceTypes.Other;
                                         break;
                                     case CorsairChannelDeviceType.FanQL:
                                         subDeviceName = "QL Fan";
                                         subDeviceType = DeviceTypes.Fan;
+                                        subImageKey = "QLFan";
                                         break;
                                     default:
-                                         subDeviceName = "Unknown";
+                                        subDeviceName = "Unknown";
                                         break;
                                 }
+
 
                                 CorsairDevice subDevice = new CorsairDevice
                                 {
                                     Driver = this,
                                     Name = subDeviceName + " " + (dev + 1).ToString(), //make device id start at 1 not 0 because normal people use this program
+                                    ProductImage = GetImage(subImageKey),
                                     CorsairDeviceIndex = info.CorsairDeviceIndex,
                                     DeviceType = subDeviceType
                                 };
@@ -238,11 +412,12 @@ namespace ICUEDriver
                                             corsairLedId = referenceLed + devLed;
                                         }
 
-                                    } else
+                                    }
+                                    else
                                     {
                                         corsairLedId = referenceLed + devLed;
                                     }
-                                     
+
 
 
                                     leds.Add(new ControlDevice.LedUnit()
@@ -250,10 +425,10 @@ namespace ICUEDriver
                                         Data = new CorsairLedData
                                         {
                                             LEDNumber = devLed,
-                                            CorsairLedId = (int) corsairLedId
+                                            CorsairLedId = (int)corsairLedId
 
                                         },
-                                        LEDName = device.Name + " " + devLed  
+                                        LEDName = device.Name + " " + devLed
                                     });
                                 }
                                 subDevice.LEDs = leds.ToArray();
@@ -276,7 +451,7 @@ namespace ICUEDriver
                                     CorsairLedId = lp.LedId
 
                                 },
-                                LEDName = device.Name+" "+ ctr
+                                LEDName = device.Name + " " + ctr
                             });
                         }
 
@@ -293,7 +468,7 @@ namespace ICUEDriver
                         device.LEDs = leds.ToArray();
 
                     }
-                    if(info.CorsairDeviceType == CorsairDeviceType.CommanderPro || info.CorsairDeviceType == CorsairDeviceType.LightningNodePro) //filter out pointless devices
+                    if (info.CorsairDeviceType == CorsairDeviceType.CommanderPro || info.CorsairDeviceType == CorsairDeviceType.LightningNodePro) //filter out pointless devices
                     {
                         continue;
                     }
@@ -308,6 +483,23 @@ namespace ICUEDriver
             Debug.WriteLine("Done : " + LastError);
             return devices;
         }
+
+        public Bitmap GetImage(string image)
+        {
+            Assembly myAssembly = Assembly.GetExecutingAssembly();
+
+            try
+            {
+                Stream imageStream = myAssembly.GetManifestResourceStream("ICUEDriver.ProductImages." + image + ".png");
+                return (Bitmap)Image.FromStream(imageStream);
+            }
+            catch
+            {
+                Stream placeholder = myAssembly.GetManifestResourceStream("ICUEDriver.CorsairPlaceholder.png");
+                return (Bitmap)Image.FromStream(placeholder);
+            }
+        }
+
 
         private string GetDeviceType(CorsairDeviceType t)
         {

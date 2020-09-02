@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,6 +58,42 @@
       <Project>{EB4729F4-0BF6-41D3-9548-F8C7846A2025}</Project>
       <Name>SimpleLEDSDK</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProductImages\AIO.png" />
+    <EmbeddedResource Include="ProductImages\DarkCore.png" />
+    <EmbeddedResource Include="ProductImages\DomPlat.png" />
+    <EmbeddedResource Include="ProductImages\Glaive.png" />
+    <EmbeddedResource Include="ProductImages\GPU.png" />
+    <EmbeddedResource Include="ProductImages\Harpoon.png" />
+    <EmbeddedResource Include="ProductImages\HDFan.png" />
+    <EmbeddedResource Include="ProductImages\Ironclaw.png" />
+    <EmbeddedResource Include="ProductImages\K65.png" />
+    <EmbeddedResource Include="ProductImages\K68.png" />
+    <EmbeddedResource Include="ProductImages\K70.png" />
+    <EmbeddedResource Include="ProductImages\K70v2.png" />
+    <EmbeddedResource Include="ProductImages\K70v2SE.png" />
+    <EmbeddedResource Include="ProductImages\K95.png" />
+    <EmbeddedResource Include="ProductImages\K95Plat.png" />
+    <EmbeddedResource Include="ProductImages\LedStrip.png" />
+    <EmbeddedResource Include="ProductImages\LLFan.png" />
+    <EmbeddedResource Include="ProductImages\LS100.png" />
+    <EmbeddedResource Include="ProductImages\LT100.png" />
+    <EmbeddedResource Include="ProductImages\M55.png" />
+    <EmbeddedResource Include="ProductImages\M65.png" />
+    <EmbeddedResource Include="ProductImages\MLFan.png" />
+    <EmbeddedResource Include="ProductImages\MM800.png" />
+    <EmbeddedResource Include="ProductImages\Motherboard.png" />
+    <EmbeddedResource Include="ProductImages\Nightsword.png" />
+    <EmbeddedResource Include="ProductImages\QLFan.png" />
+    <EmbeddedResource Include="ProductImages\Scimitar.png" />
+    <EmbeddedResource Include="ProductImages\SPFan.png" />
+    <EmbeddedResource Include="ProductImages\ST100.png" />
+    <EmbeddedResource Include="ProductImages\Strafe.png" />
+    <EmbeddedResource Include="ProductImages\Strafev2.png" />
+    <EmbeddedResource Include="ProductImages\VengeancePro.png" />
+    <EmbeddedResource Include="ProductImages\Virtuoso.png" />
+    <EmbeddedResource Include="ProductImages\Void.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
