@@ -11,7 +11,7 @@
     </UserControl.DataContext>
 
     <StackPanel>
-        <Label Grid.Row="0">Speed</Label>
-        <Slider Margin="5,0,5,0" TickPlacement="BottomRight" TickFrequency="5" Minimum="0" Maximum="100" IsSnapToTickEnabled="True" Value="{Binding Speed}"></Slider>
+        <Label Foreground="White" Grid.Row="0">Speed</Label>
+        <Slider Margin="5,0,5,0" TickPlacement="BottomRight" TickFrequency="1" Minimum="0" Maximum="10" IsSnapToTickEnabled="True" Value="{Binding Speed}"></Slider>
     </StackPanel>
 </UserControl>

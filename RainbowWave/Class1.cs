@@ -55,17 +55,15 @@ namespace RainbowWave
 		// Token: 0x06000002 RID: 2 RVA: 0x000020E0 File Offset: 0x000002E0
 		private void TimerCallback(object state)
         {
-            int speedyValueThingmeBob = configModel.Speed;
-
 			LEDColor ledcolor = LEDColor.FromHSL(105, 100, 100);
 			for (int i = 0; i < 20; i++)
 			{
-				float num = (float)((i + this.cycle) % 20);
+				float num = (float)((i + (this.cycle / 5)) % 20);
 				double num2 = (double)num / 20.0;
 				int num3 = (int)(num2 * 360.0);
 				this.leds[i].Color = LEDColor.FromHSL(num3, 100, 100);
 			}
-			this.cycle++;
+			this.cycle += configModel.Speed;
 		}
 
 		// Token: 0x06000003 RID: 3 RVA: 0x0000215E File Offset: 0x0000035E
