@@ -95,5 +95,8 @@
     <EmbeddedResource Include="ProductImages\Virtuoso.png" />
     <EmbeddedResource Include="ProductImages\Void.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CorsairPlaceholder.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
