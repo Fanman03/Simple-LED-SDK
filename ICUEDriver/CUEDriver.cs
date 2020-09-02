@@ -679,7 +679,7 @@ namespace ICUEDriver
 
         public string Name()
         {
-            return "Corsair Driver";
+            return "Corsair";
         }
 
         public class CorsairDevice : ControlDevice
