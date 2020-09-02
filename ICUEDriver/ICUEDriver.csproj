@@ -64,7 +64,6 @@
     <EmbeddedResource Include="ProductImages\DarkCore.png" />
     <EmbeddedResource Include="ProductImages\DomPlat.png" />
     <EmbeddedResource Include="ProductImages\Glaive.png" />
-    <EmbeddedResource Include="ProductImages\GPU.png" />
     <EmbeddedResource Include="ProductImages\Harpoon.png" />
     <EmbeddedResource Include="ProductImages\HDFan.png" />
     <EmbeddedResource Include="ProductImages\Ironclaw.png" />
@@ -83,7 +82,6 @@
     <EmbeddedResource Include="ProductImages\M65.png" />
     <EmbeddedResource Include="ProductImages\MLFan.png" />
     <EmbeddedResource Include="ProductImages\MM800.png" />
-    <EmbeddedResource Include="ProductImages\Motherboard.png" />
     <EmbeddedResource Include="ProductImages\Nightsword.png" />
     <EmbeddedResource Include="ProductImages\QLFan.png" />
     <EmbeddedResource Include="ProductImages\Scimitar.png" />
@@ -97,6 +95,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CorsairPlaceholder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProductImages\GPU.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProductImages\Motherboard.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
