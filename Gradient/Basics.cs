@@ -15,14 +15,14 @@ namespace Gradient
 
 	}
 	// Token: 0x02000002 RID: 2
-	public class GradientDriver : ISimpleLEDDriverWithConfig
+	public class TwoColGradientDriver : ISimpleLEDDriverWithConfig
 	{
 
 		public static Assembly assembly = Assembly.GetExecutingAssembly();
 		//public static Stream imageStream = assembly.GetManifestResourceStream("RainbowWave.rainbowwave.png");
 
 		[JsonIgnore]
-		public GradientConfigModel configModel = new GradientConfigModel();
+		public TwoColGradientConfigModel configModel = new TwoColGradientConfigModel();
 
 
 		public bool GetIsDirty()
@@ -36,7 +36,7 @@ namespace Gradient
 		}
 
 		// Token: 0x06000001 RID: 1 RVA: 0x00002050 File Offset: 0x00000250
-		public GradientDriver()
+		public TwoColGradientDriver()
 		{
 				this.leds[0] = new ControlDevice.LedUnit
 				{
@@ -125,7 +125,7 @@ namespace Gradient
 
 		public UserControl GetCustomConfig(ControlDevice controlDevice)
 		{
-			var config = new CustomConfig
+			var config = new TwoColConfig
 			{
 				DataContext = configModel
 			};
@@ -137,7 +137,7 @@ namespace Gradient
 
 		public T GetConfig<T>() where T : SLSConfigData
 		{
-			GradientConfigModel data = this.configModel;
+			TwoColGradientConfigModel data = this.configModel;
 			SLSConfigData proxy = data;
 			return (T)proxy;
 		}
@@ -145,7 +145,7 @@ namespace Gradient
 
 		public void PutConfig<T>(T config) where T : SLSConfigData
 		{
-			GradientConfigModel proxy = config as GradientConfigModel;
+			TwoColGradientConfigModel proxy = config as TwoColGradientConfigModel;
 		}
 
 		// Token: 0x04000001 RID: 1

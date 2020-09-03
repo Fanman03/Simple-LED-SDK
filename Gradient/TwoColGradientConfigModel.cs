@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Gradient
 {
-    public class GradientConfigModel : SLSConfigData
+    public class TwoColGradientConfigModel : SLSConfigData
     {
         private int color1R = 255;
         public int Color1R

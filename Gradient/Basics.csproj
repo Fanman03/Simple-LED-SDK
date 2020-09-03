@@ -53,11 +53,11 @@
       <DependentUpon>ThreeColConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="ThreeColGradientConfigModel.cs" />
-    <Compile Include="CustomConfig.xaml.cs">
-      <DependentUpon>CustomConfig.xaml</DependentUpon>
+    <Compile Include="TwoColConfig.xaml.cs">
+      <DependentUpon>TwoColConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Basics.cs" />
-    <Compile Include="GradientConfigModel.cs" />
+    <Compile Include="TwoColGradientConfigModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolidColorConfig.xaml.cs">
       <DependentUpon>SolidColorConfig.xaml</DependentUpon>
@@ -74,7 +74,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="CustomConfig.xaml">
+    <Page Include="TwoColConfig.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
