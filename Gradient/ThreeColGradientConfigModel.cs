@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 using MadLedFrameworkSDK;
 using Newtonsoft.Json;
 
-
 namespace Gradient
 {
-    public class GradientConfigModel : SLSConfigData
+    public class ThreeColGradientConfigModel : SLSConfigData
     {
         private int color1R = 255;
         public int Color1R
@@ -55,7 +54,7 @@ namespace Gradient
             }
         }
 
-        private int color2G = 0;
+        private int color2G = 255;
         public int Color2G
         {
             get => color2G;
@@ -76,6 +75,40 @@ namespace Gradient
                 DataIsDirty = true;
             }
         }
+
+            private int color3R = 0;
+        public int Color3R
+        {
+            get => color3R;
+            set
+            {
+                SetProperty(ref color3R, value);
+                DataIsDirty = true;
+            }
+        }
+
+        private int color3G = 0;
+        public int Color3G
+        {
+            get => color3G;
+            set
+            {
+                SetProperty(ref color3G, value);
+                DataIsDirty = true;
+            }
+        }
+
+        private int color3B = 255;
+        public int Color3B
+        {
+            get => color3B;
+            set
+            {
+                SetProperty(ref color3B, value);
+                DataIsDirty = true;
+            }
+        }
+
 
         private ControlDevice controlDevice;
 

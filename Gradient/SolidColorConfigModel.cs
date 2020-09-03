@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Gradient
 {
-    public class GradientConfigModel : SLSConfigData
+    public class SolidColorConfigModel : SLSConfigData
     {
         private int color1R = 255;
         public int Color1R
@@ -40,39 +40,6 @@ namespace Gradient
             set
             {
                 SetProperty(ref color1B, value);
-                DataIsDirty = true;
-            }
-        }
-
-        private int color2R = 0;
-        public int Color2R
-        {
-            get => color2R;
-            set
-            {
-                SetProperty(ref color2R, value);
-                DataIsDirty = true;
-            }
-        }
-
-        private int color2G = 0;
-        public int Color2G
-        {
-            get => color2G;
-            set
-            {
-                SetProperty(ref color2G, value);
-                DataIsDirty = true;
-            }
-        }
-
-        private int color2B = 255;
-        public int Color2B
-        {
-            get => color2B;
-            set
-            {
-                SetProperty(ref color2B, value);
                 DataIsDirty = true;
             }
         }

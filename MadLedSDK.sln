@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorsairH100iProvider", "Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RainbowWave", "RainbowWave\RainbowWave.csproj", "{28F86E3C-9F50-4F2F-8486-1FB906990C25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gradient", "Gradient\Gradient.csproj", "{373094C0-5ACD-433C-AA92-CB96046D8A0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basics", "Gradient\Basics.csproj", "{373094C0-5ACD-433C-AA92-CB96046D8A0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
