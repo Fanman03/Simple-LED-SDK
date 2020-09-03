@@ -15,7 +15,7 @@ namespace Gradient
 
 	}
 	// Token: 0x02000002 RID: 2
-	public class TwoColGradientDriver : ISimpleLEDDriverWithConfig
+	public class GradientDriver : ISimpleLEDDriverWithConfig
 	{
 
 		public static Assembly assembly = Assembly.GetExecutingAssembly();
@@ -36,7 +36,7 @@ namespace Gradient
 		}
 
 		// Token: 0x06000001 RID: 1 RVA: 0x00002050 File Offset: 0x00000250
-		public TwoColGradientDriver()
+		public GradientDriver()
 		{
 				this.leds[0] = new ControlDevice.LedUnit
 				{

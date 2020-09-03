@@ -18,9 +18,9 @@ namespace Gradient
     /// <summary>
     /// Interaction logic for CustomConfig.xaml
     /// </summary>
-    public partial class CustomConfig : UserControl
+    public partial class TwoColConfig : UserControl
     {
-        public CustomConfig()
+        public TwoColConfig()
         {
             InitializeComponent();
         }
