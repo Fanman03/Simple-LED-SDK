@@ -80,9 +80,66 @@ namespace AsusDriver
                         case 0x00020000: //VGA
                             ctrlDevice.DeviceType = DeviceTypes.GPU;
                             ctrlDevice.ProductImage = GetImage("GPU");
+                            ctrlDevice.Name = device.Name.Replace("Vga","GPU");
                             break;
 
-                        //For now, skip other device types.
+                        case 0x00040000: //Headset
+                            ctrlDevice.DeviceType = DeviceTypes.Headset;
+                            ctrlDevice.ProductImage = GetImage("Headset");
+                            break;
+
+                        case 0x00070000: //DRAM
+                            ctrlDevice.DeviceType = DeviceTypes.Memory;
+                            ctrlDevice.ProductImage = GetImage("DRAM");
+                            break;
+
+                        case 0x00080000: //Keyboard
+                            ctrlDevice.DeviceType = DeviceTypes.Keyboard;
+                            ctrlDevice.ProductImage = GetImage("Keyboard");
+                            break;
+
+                        case 0x00081000: //Notebook Keyboard
+                        case 0x00081001: //Notebook Keyboard(4 - zone type)
+                            ctrlDevice.DeviceType = DeviceTypes.Keyboard;
+                            ctrlDevice.ProductImage = GetImage("LaptopKeyboard");
+                            break;
+
+                        case 0x00090000: //Mouse
+                            ctrlDevice.DeviceType = DeviceTypes.Keyboard;
+                            ctrlDevice.ProductImage = GetImage("Mouse");
+                            break;
+
+                        case 0x00030000: //Display
+                            ctrlDevice.DeviceType = DeviceTypes.Other;
+                            ctrlDevice.ProductImage = GetImage("Monitor");
+                            break;
+
+                        case 0x000B0000: //Chassis
+                            ctrlDevice.DeviceType = DeviceTypes.Other;
+                            ctrlDevice.ProductImage = GetImage("Chassis");
+                            break;
+
+                        case 0x00050000: //Microphone
+                            ctrlDevice.DeviceType = DeviceTypes.Other;
+                            ctrlDevice.ProductImage = GetImage("Microphone");
+                            break;
+
+                        case 0x00060000: //External HDD
+                            ctrlDevice.DeviceType = DeviceTypes.Other;
+                            ctrlDevice.ProductImage = GetImage("HDD");
+                            break;
+
+                        case 0x000C0000: //Projector
+                            ctrlDevice.DeviceType = DeviceTypes.Bulb;
+                            ctrlDevice.ProductImage = GetImage("Projector");
+                            break;
+
+                        case 0x00000000: //All
+                        case 0x00012000: //All - In - One PC
+                        case 0x00061000: //External BD Drive
+                            ctrlDevice.DeviceType = DeviceTypes.Other;
+                            break;
+
                     }
                     devices.Add(ctrlDevice);
                 }
@@ -132,24 +189,22 @@ namespace AsusDriver
             throw new NotImplementedException();
         }
 
-        DateTime lastRun = DateTime.MinValue;
+        public static bool ApiInUse = false;
         public void Push(ControlDevice controlDevice)
         {
+            if (ApiInUse) return;
+            ApiInUse = true;
             AsusControlDevice asusDevice = (AsusControlDevice)controlDevice;
 
-            if ((DateTime.Now - lastRun).TotalMilliseconds > 200)
+            for (int inc = 0; inc < controlDevice.LEDs.Length; inc++)
             {
-                int inc = 0;
-                foreach (var led in controlDevice.LEDs)
-                {
-                    asusDevice.device.Lights[inc].Red = (byte)led.Color.Red;
-                    asusDevice.device.Lights[inc].Green = (byte)led.Color.Green;
-                    asusDevice.device.Lights[inc].Blue = (byte)led.Color.Blue;
-                    inc++;
-                }
-                Task.Run(() => { asusDevice.device.Apply(); });
-                
+                asusDevice.device.Lights[inc].Red = (byte)controlDevice.LEDs[inc].Color.Red;
+                asusDevice.device.Lights[inc].Green = (byte)controlDevice.LEDs[inc].Color.Green;
+                asusDevice.device.Lights[inc].Blue = (byte)controlDevice.LEDs[inc].Color.Blue;
             }
+
+            asusDevice.device.Apply();
+            ApiInUse = false;
         }
 
         public void PutConfig<T>(T config) where T : SLSConfigData

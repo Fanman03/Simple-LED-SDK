@@ -65,5 +65,27 @@
   <ItemGroup>
     <EmbeddedResource Include="ProductImages\AddressableHeader.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProductImages\DRAM.png" />
+    <EmbeddedResource Include="ProductImages\Headset.png" />
+    <EmbeddedResource Include="ProductImages\Keyboard.png" />
+    <EmbeddedResource Include="ProductImages\Mouse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProductImages\LaptopKeyboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProductImages\Chassis.png" />
+    <EmbeddedResource Include="ProductImages\Monitor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProductImages\Microphone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProductImages\HDD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ProductImages\Projector.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
