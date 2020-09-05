@@ -15,26 +15,34 @@ namespace AsusDriver
     {
         private IAuraSdk2 _sdk;
 
+        public IAuraSyncDeviceCollection _collection;
+
         public void Configure(DriverDetails driverDetails)
         {
             _sdk = (IAuraSdk2)new AuraSdk();
             _sdk.SwitchMode();
+            _collection = _sdk.Enumerate(0);
         }
 
         public List<ControlDevice> GetDevices()
         {
             List<ControlDevice> devices = new List<ControlDevice>();
-            foreach (IAuraSyncDevice device in _sdk.Enumerate(0))
+            foreach (IAuraSyncDevice device in _collection)
             {
                 try
                 {
-                    ControlDevice ctrlDevice = new ControlDevice
+                    AsusControlDevice ctrlDevice = new AsusControlDevice
                     {
                         Driver = this,
                         Name = device.Name,
+                        InternalName = device.Name,
                         DeviceType = null,
                         ProductImage = GetImage(null)
                     };
+
+                    IEnumerable<IAuraSyncDevice> e = _collection.Cast<IAuraSyncDevice>();
+                    var query = e.Where(x => x.Name == ctrlDevice.InternalName);
+                    ctrlDevice.device = query.First();
 
                     List<ControlDevice.LedUnit> leds = new List<ControlDevice.LedUnit>();
 
@@ -44,9 +52,10 @@ namespace AsusDriver
                     {
                         leds.Add(new ControlDevice.LedUnit()
                         {
-                            Data = new ControlDevice.LEDData
+                            Data = new AsusLedData
                             {
                                 LEDNumber = ledIndex,
+                                AsusLedName = light.Name
                             },
                             LEDName = light.Name
                         });
@@ -72,6 +81,8 @@ namespace AsusDriver
                             ctrlDevice.DeviceType = DeviceTypes.GPU;
                             ctrlDevice.ProductImage = GetImage("GPU");
                             break;
+
+                        //For now, skip other device types.
                     }
                     devices.Add(ctrlDevice);
                 }
@@ -121,14 +132,40 @@ namespace AsusDriver
             throw new NotImplementedException();
         }
 
+        DateTime lastRun = DateTime.MinValue;
         public void Push(ControlDevice controlDevice)
         {
-            throw new NotImplementedException();
+            AsusControlDevice asusDevice = (AsusControlDevice)controlDevice;
+
+            if ((DateTime.Now - lastRun).TotalMilliseconds > 200)
+            {
+                int inc = 0;
+                foreach (var led in controlDevice.LEDs)
+                {
+                    asusDevice.device.Lights[inc].Red = (byte)led.Color.Red;
+                    asusDevice.device.Lights[inc].Green = (byte)led.Color.Green;
+                    asusDevice.device.Lights[inc].Blue = (byte)led.Color.Blue;
+                    inc++;
+                }
+                Task.Run(() => { asusDevice.device.Apply(); });
+                
+            }
         }
 
         public void PutConfig<T>(T config) where T : SLSConfigData
         {
             //throw new NotImplementedException();
+        }
+        public class AsusLedData : ControlDevice.LEDData
+        {
+            public string AsusLedName { get; set; }
+        }
+
+        public class AsusControlDevice : ControlDevice
+        {
+            public string InternalName { get; set; }
+
+            public IAuraSyncDevice device { get; set; }
         }
 
         public Bitmap GetImage(string image)
