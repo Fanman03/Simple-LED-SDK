@@ -75,6 +75,7 @@ namespace AsusDriver
                         case 0x00011000: //Motherboard LED Strip
                             ctrlDevice.DeviceType = DeviceTypes.LedStrip;
                             ctrlDevice.ProductImage = GetImage("AddressableHeader");
+                            ctrlDevice.Name = device.Name.Replace("AddressableHeader", "ARGB Header");
                             break;
 
                         case 0x00020000: //VGA
